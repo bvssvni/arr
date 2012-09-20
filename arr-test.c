@@ -35,7 +35,7 @@ void test(void)
 int main(int argc, char *argv[])
 {
     int i;
-    for (i = 0; i < (1 << 24); i++) test();
+    for (i = 0; i < (1 << 1); i++) test();
     printf("Arr unit tests succeeded!\n");
     
     return 0;

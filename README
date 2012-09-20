@@ -8,6 +8,9 @@
  Angular degrees versioning notation
  http://isprogrammingeasy.blogspot.no/2012/08/angular-degrees-versioning-notation.html
 
+Compile test units with GCC:
+
+	gcc -o arr-test arr-test.c -Wall
 
 Arrays in C lack length and this is not very convenient.
 This macro library require only including the header.
@@ -17,8 +20,8 @@ This macro library require only including the header.
 No struct declarations are necessary, here is an example:
 
 	arr_init(double, a, 0.5, 0.25, 0.175);
-	int i;
-	for (i = 0; i < arr_len(a); i++) {
+	int i, n = arr_len(a);
+	for (i = 0; i < n; i++) {
 		printf("%g ", a[i]);
 	}
 	arr_free(a);
