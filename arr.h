@@ -38,10 +38,12 @@
  Go             C                                   Arr (this library)
  
  x := [10]int   int x[20] = {};                     arr_init_size(int, x, 10);
- xn := len(x)   int xn = sizeof(x)/sizeof(*x);      int xn = arr_len(x);
+ xn := len(x)   int xn = sizeof(x)/sizeof(*x);      long xn = arr_len(x);
  
  void my_function(int n, int *arr);  // C, but not common in most languages.
  void my_function(int *arr);         // With Arr the length can be skipped.
+ 
+ The length of arrays in Arr is long to provide better support on 64 bit CPUs.
  
  We can also see this in data structures, where the number of items in the array
  require an extra variable. 
@@ -66,7 +68,7 @@
  arr_init_size(double, a, 10);
  
  // To get the length of an array.
- int n = arr_len(a);
+ long n = arr_len(a);
  
  // To release the memory allocated by array.
  arr_free(a);
@@ -83,19 +85,19 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define arr_len(a) *((int*)(a)-1)
+#define arr_len(a) *((long*)(a)-1)
 #define arr_init(type, a, ...) \
 type macro_##a##_data[] = {__VA_ARGS__}; \
-int *macro_##a##_struct = malloc(sizeof(macro_##a##_data)+sizeof(int)); \
+long *macro_##a##_struct = malloc(sizeof(macro_##a##_data)+sizeof(long)); \
 memcpy(macro_##a##_struct+1, macro_##a##_data, sizeof(macro_##a##_data)); \
 *macro_##a##_struct = sizeof(macro_##a##_data)/sizeof(type); \
 type *a = (type*)(macro_##a##_struct+1);
 #define arr_init_size(type, a, n) \
-int *macro_##a##_struct = malloc(n*sizeof(type)+sizeof(int)); \
-memset(macro_##a##_struct, 0, n*sizeof(type)+sizeof(int)); \
+long *macro_##a##_struct = malloc(n*sizeof(type)+sizeof(long)); \
+memset(macro_##a##_struct, 0, n*sizeof(type)+sizeof(long)); \
 *macro_##a##_struct = n*sizeof(type)/sizeof(type); \
 type *a = (type*)(macro_##a##_struct+1);
-#define arr_free(a) free((int*)(a)-1)
+#define arr_free(a) free((long*)(a)-1)
 
 #endif
 
