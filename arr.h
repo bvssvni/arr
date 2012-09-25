@@ -77,6 +77,12 @@
  Otherwise it acts just like a normal C array, starting at 0.
  */
 
+#ifndef ARR_MEMGUARD
+#define ARR_MEMGUARD
+
+#include <string.h>
+#include <stdlib.h>
+
 #define arr_len(a) *((int*)(a)-1)
 #define arr_init(type, a, ...) \
 type macro_##a##_data[] = {__VA_ARGS__}; \
@@ -90,3 +96,6 @@ memset(macro_##a##_struct, 0, n*sizeof(type)+sizeof(int)); \
 *macro_##a##_struct = n*sizeof(type)/sizeof(type); \
 type *a = (type*)(macro_##a##_struct+1);
 #define arr_free(a) free((int*)(a)-1)
+
+#endif
+

@@ -11,6 +11,11 @@
 
 #define Err() do {printf("%i Error\n", __LINE__); exit(1);} while (0)
 
+typedef struct A
+{
+    double x, y, z, w;
+} A;
+
 void test(void)
 {
     {
@@ -28,6 +33,12 @@ void test(void)
         if (arr_len(a) != 2) Err();
         if (a[0] != 1.2) Err();
         if (a[1] != 1.5) Err();
+        arr_free(a);
+    }
+    {
+        int n = 100;
+        arr_init_size(A, a, n);
+        if (arr_len(a) != n) Err();
         arr_free(a);
     }
 }
